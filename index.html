@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kinetix Video Labs | High-Impact Video Editing & AI Solutions</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#07090e',
+                            card: 'rgba(15, 23, 42, 0.65)',
+                            border: 'rgba(255, 255, 255, 0.08)',
+                            cyan: '#06b6d4',
+                            blue: '#3b82f6',
+                            violet: '#8b5cf6',
+                            accent: '#6366f1'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 4s ease-in-out infinite alternate',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%': { opacity: '0.3', transform: 'scale(1)' },
+                            '100%': { opacity: '0.7', transform: 'scale(1.08)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #05070c;
+            color: #f1f5f9;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism Classes */
+        .glass-card {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .glass-card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-card-hover:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px -10px rgba(99, 102, 241, 0.25);
+        }
+
+        .glass-nav {
+            background: rgba(5, 7, 12, 0.75);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Custom Gradients */
+        .gradient-text {
+            background: linear-gradient(135deg, #38bdf8 0%, #818cf8 50%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gradient-btn {
+            background: linear-gradient(135deg, #2563eb 0%, #4f46e5 50%, #7c3aed 100%);
+            transition: all 0.3s ease;
+        }
+
+        .gradient-btn:hover {
+            box-shadow: 0 0 25px rgba(99, 102, 241, 0.6);
+            opacity: 0.95;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #05070c;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #334155;
+        }
+
+        /* Video Range Slider Styling */
+        input[type=range] {
+            accent-color: #6366f1;
+        }
+    </style>
+</head>
+<body class="selection:bg-indigo-500 selection:text-white">
+
+    <!-- Ambient Glowing Background Lights -->
+    <div class="fixed top-0 left-1/4 w-[500px] h-[500px] bg-blue-600/15 rounded-full blur-[140px] pointer-events-none -z-10 animate-pulse-glow"></div>
+    <div class="fixed top-1/3 right-10 w-[450px] h-[450px] bg-purple-600/15 rounded-full blur-[140px] pointer-events-none -z-10 animate-pulse-glow" style="animation-delay: 2s;"></div>
+    <div class="fixed bottom-10 left-1/3 w-[600px] h-[600px] bg-cyan-600/10 rounded-full blur-[160px] pointer-events-none -z-10"></div>
+
+    <!-- Navigation Header -->
+    <header class="fixed top-0 left-0 w-full z-50 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-indigo-500 to-purple-600 flex items-center justify-center p-0.5 shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform">
+                    <div class="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
+                        <i class="fa-solid fa-play text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-indigo-400 text-sm ml-0.5"></i>
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-lg font-extrabold tracking-tight text-white flex items-center gap-1.5">
+                        KINETIX <span class="text-xs px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 font-semibold tracking-normal">LABS</span>
+                    </span>
+                    <span class="text-[10px] text-slate-400 tracking-widest uppercase font-medium">Video Production & AI</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden lg:flex items-center gap-7 text-sm font-medium text-slate-300">
+                <a href="#services" class="hover:text-cyan-400 transition-colors">Services</a>
+                <a href="#showcase" class="hover:text-cyan-400 transition-colors">Showcase</a>
+                <a href="#process" class="hover:text-cyan-400 transition-colors">Process</a>
+                <a href="#pricing" class="hover:text-cyan-400 transition-colors">Pricing</a>
+                <a href="#testimonials" class="hover:text-cyan-400 transition-colors">Testimonials</a>
+                <a href="#calculator" class="hover:text-cyan-400 transition-colors">Quote Estimator</a>
+            </nav>
+
+            <!-- Header Actions -->
+            <div class="flex items-center gap-4">
+                <a href="#calculator" class="hidden sm:inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-semibold text-xs tracking-wider uppercase text-white gradient-btn shadow-lg shadow-indigo-500/20">
+                    <i class="fa-solid fa-bolt mr-2"></i> Get a Quote
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="lg:hidden p-2.5 rounded-xl glass-card text-slate-300 hover:text-white focus:outline-none">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden glass-card border-x-0 border-t-0 px-6 py-6 space-y-4">
+            <a href="#services" class="mobile-link block text-base font-medium text-slate-300 hover:text-indigo-400">Services</a>
+            <a href="#showcase" class="mobile-link block text-base font-medium text-slate-300 hover:text-indigo-400">Showcase</a>
+            <a href="#process" class="mobile-link block text-base font-medium text-slate-300 hover:text-indigo-400">Process</a>
+            <a href="#pricing" class="mobile-link block text-base font-medium text-slate-300 hover:text-indigo-400">Pricing</a>
+            <a href="#testimonials" class="mobile-link block text-base font-medium text-slate-300 hover:text-indigo-400">Testimonials</a>
+            <a href="#calculator" class="mobile-link block text-base font-medium text-slate-300 hover:text-indigo-400">Quote Estimator</a>
+            <div class="pt-2">
+                <a href="#calculator" class="mobile-link w-full inline-flex items-center justify-center px-5 py-3 rounded-xl font-semibold text-sm text-white gradient-btn">
+                    Book a Strategy Call
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="pt-24">
+
+        <!-- Hero Section -->
+        <section class="relative min-h-[calc(100vh-6rem)] flex items-center justify-center py-12 lg:py-20 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-7xl mx-auto w-full grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+                
+                <!-- Left Column: Copywriting -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    
+                    <!-- Badge -->
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-card border-indigo-500/30 text-indigo-300 text-xs font-semibold tracking-wide">
+                        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                        <span class="bg-gradient-to-r from-cyan-400 to-indigo-300 bg-clip-text text-transparent font-bold">NEXT-GEN VIDEO PRODUCTION</span>
+                    </div>
+
+                    <!-- Main Headline -->
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.15]">
+                        Transforming Raw Footage Into <span class="gradient-text">High-Converting</span> Visual Experiences
+                    </h1>
+
+                    <!-- Subheadline -->
+                    <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                        We blend high-end video editing, bespoke motion graphics, sound design, and cutting-edge AI video synthesis to scale YouTube creators, DTC brands, and venture-backed agencies.
+                    </p>
+
+                    <!-- CTAs -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="#showcase" class="w-full sm:w-auto px-8 py-4 rounded-xl text-white font-bold text-sm tracking-wide gradient-btn text-center shadow-xl shadow-indigo-600/30 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-circle-play text-base"></i> View Showreel
+                        </a>
+                        <a href="#calculator" class="w-full sm:w-auto px-8 py-4 rounded-xl glass-card hover:bg-slate-800/80 text-slate-200 font-semibold text-sm text-center border border-slate-700/60 transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-calculator text-indigo-400"></i> Calculate Project Cost
+                        </a>
+                    </div>
+
+                    <!-- Client Trust Badges -->
+                    <div class="pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6 text-xs text-slate-400">
+                        <div class="flex items-center -space-x-2">
+                            <img class="w-8 h-8 rounded-full border-2 border-slate-900 object-cover" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="Client Avatar">
+                            <img class="w-8 h-8 rounded-full border-2 border-slate-900 object-cover" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" alt="Client Avatar">
+                            <img class="w-8 h-8 rounded-full border-2 border-slate-900 object-cover" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80" alt="Client Avatar">
+                            <img class="w-8 h-8 rounded-full border-2 border-slate-900 object-cover" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80" alt="Client Avatar">
+                            <div class="w-8 h-8 rounded-full border-2 border-slate-900 bg-indigo-600 text-white font-bold text-[10px] flex items-center justify-center">+50</div>
+                        </div>
+                        <div class="text-slate-300">
+                            <div class="flex items-center gap-1 text-amber-400 text-xs">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <span class="text-white font-bold ml-1">4.99/5</span>
+                            </div>
+                            <span>Trusted by 100+ top creators & brands</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Interactive Video Player Widget -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-full max-w-md lg:max-w-none">
+                        <!-- Ambient backlighting -->
+                        <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-600 rounded-3xl opacity-40 blur-xl"></div>
+                        
+                        <!-- Player Glass Shell -->
+                        <div class="relative rounded-2xl glass-card overflow-hidden border border-slate-700/60 shadow-2xl">
+                            
+                            <!-- Video Element Container -->
+                            <div class="relative aspect-[9/16] sm:aspect-video lg:aspect-[4/5] bg-slate-950 flex items-center justify-center overflow-hidden group">
+                                <video id="hero-video" class="w-full h-full object-cover" loop poster="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=1000&q=80">
+                                    <source src="https://assets.mixkit.co/videos/preview/mixkit-animation-of-futuristic-devices-99786-large.mp4" type="video/mp4">
+                                    Your browser does not support video playback.
+                                </video>
+
+                                <!-- Custom Play Overlay Button -->
+                                <button id="hero-play-btn" class="absolute inset-0 w-full h-full flex flex-col items-center justify-center bg-slate-950/40 hover:bg-slate-950/20 transition-all group">
+                                    <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-indigo-600/90 text-white flex items-center justify-center shadow-2xl shadow-indigo-500/50 group-hover:scale-110 transition-transform border border-indigo-400/50">
+                                        <i class="fa-solid fa-play text-2xl sm:text-3xl ml-1"></i>
+                                    </div>
+                                    <span class="mt-4 px-3 py-1 rounded-full bg-slate-900/80 text-xs font-semibold text-slate-200 backdrop-blur-md border border-slate-700">
+                                        Click to Play 2026 Demo Reel
+                                    </span>
+                                </button>
+
+                                <!-- Top Video Overlay Stats Badge -->
+                                <div class="absolute top-4 left-4 right-4 flex items-center justify-between pointer-events-none">
+                                    <span class="px-2.5 py-1 rounded-md bg-slate-950/70 text-[11px] font-mono text-cyan-400 border border-cyan-500/30 backdrop-blur-sm">
+                                        <i class="fa-solid fa-circle text-[8px] text-red-500 mr-1 animate-pulse"></i> 4K UHD 60FPS
+                                    </span>
+                                    <span class="px-2.5 py-1 rounded-md bg-slate-950/70 text-[11px] font-mono text-slate-300 backdrop-blur-sm border border-slate-800">
+                                        KINETIX REEL
+                                    </span>
+                                </div>
+
+                                <!-- Custom Bottom Player Control Bar -->
+                                <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent flex flex-col gap-2">
+                                    <div class="w-full bg-slate-800/80 rounded-full h-1.5 cursor-pointer overflow-hidden" id="video-progress-container">
+                                        <div id="video-progress" class="bg-gradient-to-r from-cyan-400 to-indigo-500 h-full w-0 transition-all duration-100"></div>
+                                    </div>
+                                    <div class="flex items-center justify-between text-xs text-slate-300 pt-1">
+                                        <div class="flex items-center gap-3">
+                                            <button id="ctrl-play-pause" class="hover:text-cyan-400"><i class="fa-solid fa-play"></i></button>
+                                            <button id="ctrl-mute" class="hover:text-cyan-400"><i class="fa-solid fa-volume-xmark"></i></button>
+                                            <span id="video-time" class="font-mono text-[11px] text-slate-400">00:00 / 00:30</span>
+                                        </div>
+                                        <button id="ctrl-fullscreen" class="hover:text-cyan-400"><i class="fa-solid fa-expand"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Live Metrics / Stats Counter Bar -->
+        <section class="py-10 border-y border-slate-800/80 bg-slate-950/60 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                    
+                    <div class="space-y-1">
+                        <div class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight flex items-center justify-center">
+                            <span class="counter" data-target="500">0</span>+
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-400 font-medium">Videos Completed</p>
+                    </div>
+
+                    <div class="space-y-1">
+                        <div class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight flex items-center justify-center">
+                            <span class="counter" data-target="50">0</span>M+
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-400 font-medium">Organic Views Generated</p>
+                    </div>
+
+                    <div class="space-y-1">
+                        <div class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight flex items-center justify-center">
+                            <span>99.8</span>%
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-400 font-medium">Client Satisfaction</p>
+                    </div>
+
+                    <div class="space-y-1">
+                        <div class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight flex items-center justify-center">
+                            <span>24-48</span><span class="text-lg text-indigo-400 ml-1">hrs</span>
+                        </div>
+                        <p class="text-xs sm:text-sm text-slate-400 font-medium">Average Turnaround</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Core Services Grid Section -->
+        <section id="services" class="py-24 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Section Header -->
+                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                    <h2 class="text-xs font-bold uppercase tracking-widest text-indigo-400">Capabilities & Expertise</h2>
+                    <p class="text-3xl sm:text-4xl font-extrabold text-white">Full-Stack Video Engineering</p>
+                    <p class="text-slate-400 text-sm sm:text-base">We combine traditional cinematic storytelling with cutting-edge AI pipelines to engineer videos that capture attention and drive conversions.</p>
+                </div>
+
+                <!-- Services Cards -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Service 1 -->
+                    <div class="glass-card glass-card-hover p-8 rounded-2xl relative overflow-hidden group">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center text-xl mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                            <i class="fa-brands fa-youtube"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">YouTube & Long-Form Editing</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                            Hook-driven pacing, custom motion graphics, sound design, and retention editing engineered to maximize watch time and subscriber retention.
+                        </p>
+                        <ul class="text-xs text-slate-300 space-y-2 font-medium">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Custom Thumbnail Strategy</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Narrative Sound Architecture</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Pattern Interrupt Effects</li>
+                        </ul>
+                    </div>
+
+                    <!-- Service 2 -->
+                    <div class="glass-card glass-card-hover p-8 rounded-2xl relative overflow-hidden group">
+                        <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center text-xl mb-6 group-hover:bg-cyan-500 group-hover:text-white transition-all">
+                            <i class="fa-solid fa-mobile-screen"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Short-Form Virality (Reels/TikTok)</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                            Fast-paced, vertical content tailored for TikTok, Instagram Reels, and YouTube Shorts designed to hook viewers within 1.5 seconds.
+                        </p>
+                        <ul class="text-xs text-slate-300 space-y-2 font-medium">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Dynamic Animated Captions</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Trendy Transitions & B-Roll</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Batch Repurposing</li>
+                        </ul>
+                    </div>
+
+                    <!-- Service 3 -->
+                    <div class="glass-card glass-card-hover p-8 rounded-2xl relative overflow-hidden group">
+                        <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center text-xl mb-6 group-hover:bg-purple-600 group-hover:text-white transition-all">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">AI Video & 4K Enhancement</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                            Leverage generative AI video avatars, AI voiceover synchronization, 4K upscaling, and noise reduction for next-level production quality.
+                        </p>
+                        <ul class="text-xs text-slate-300 space-y-2 font-medium">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> AI Video Upscaling & Frame Interpolation</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Voice Isolation & Clean-up</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Generative AI Stock Footage</li>
+                        </ul>
+                    </div>
+
+                    <!-- Service 4 -->
+                    <div class="glass-card glass-card-hover p-8 rounded-2xl relative overflow-hidden group">
+                        <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center text-xl mb-6 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                            <i class="fa-solid fa-cubes-stacked"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Motion Graphics & 3D VFX</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                            Custom 2D/3D title sequences, kinetic typography, HUD UI overlays, logo stings, and complex visual effects for high-end aesthetics.
+                        </p>
+                        <ul class="text-xs text-slate-300 space-y-2 font-medium">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> 3D Product Renders</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> After Effects Compositing</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Lower Thirds & Callouts</li>
+                        </ul>
+                    </div>
+
+                    <!-- Service 5 -->
+                    <div class="glass-card glass-card-hover p-8 rounded-2xl relative overflow-hidden group">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-all">
+                            <i class="fa-solid fa-film"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Brand Ads & Commercials</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                            High-converting VSLs (Video Sales Letters), Kickstarter pitch videos, product launch promos, and corporate brand documentaries.
+                        </p>
+                        <ul class="text-xs text-slate-300 space-y-2 font-medium">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> E-commerce Meta & TikTok Ads</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> High-Converting Script Review</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Multi-Ratio Exporting</li>
+                        </ul>
+                    </div>
+
+                    <!-- Service 6 -->
+                    <div class="glass-card glass-card-hover p-8 rounded-2xl relative overflow-hidden group">
+                        <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center text-xl mb-6 group-hover:bg-amber-600 group-hover:text-white transition-all">
+                            <i class="fa-solid fa-sliders"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Color Grading & Audio Mastering</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-6">
+                            DaVinci Resolve cinematic look development, film emulation, LUT creation, sound SFX mixing, and binaural audio balancing.
+                        </p>
+                        <ul class="text-xs text-slate-300 space-y-2 font-medium">
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Cinematic Film Looks</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Foley & SFX Layering</li>
+                            <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Dialogue Restoration</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Portfolio Showcase Gallery -->
+        <section id="showcase" class="py-24 bg-slate-950/80 relative border-t border-slate-800/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                    <div>
+                        <h2 class="text-xs font-bold uppercase tracking-widest text-indigo-400 mb-2">Selected Works</h2>
+                        <p class="text-3xl sm:text-4xl font-extrabold text-white">Project Showcase Gallery</p>
+                    </div>
+
+                    <!-- Category Filter Tabs -->
+                    <div class="flex flex-wrap gap-2 p-1.5 glass-card rounded-xl border border-slate-800">
+                        <button class="filter-btn px-4 py-2 rounded-lg text-xs font-bold transition-all bg-indigo-600 text-white" data-filter="all">All Projects</button>
+                        <button class="filter-btn px-4 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition-all" data-filter="youtube">YouTube</button>
+                        <button class="filter-btn px-4 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition-all" data-filter="shorts">Reels / Shorts</button>
+                        <button class="filter-btn px-4 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition-all" data-filter="commercial">Commercials</button>
+                        <button class="filter-btn px-4 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white transition-all" data-filter="ai">AI Video</button>
+                    </div>
+                </div>
+
+                <!-- Showcase Video Grid -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="portfolio-grid">
+                    
+                    <!-- Item 1 -->
+                    <div class="portfolio-item youtube glass-card glass-card-hover rounded-2xl overflow-hidden group" data-category="youtube">
+                        <div class="relative aspect-video bg-slate-900 overflow-hidden cursor-pointer open-modal" data-title="Tech Review Masterclass" data-views="2.4M Views" data-client="TechNexus Channel">
+                            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80" alt="Thumbnail" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-slate-950/40 group-hover:bg-slate-950/10 transition-colors flex items-center justify-center">
+                                <div class="w-12 h-12 rounded-full bg-indigo-600/90 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                    <i class="fa-solid fa-play ml-0.5"></i>
+                                </div>
+                            </div>
+                            <span class="absolute top-3 left-3 px-2 py-1 rounded bg-slate-950/80 text-[10px] font-semibold text-cyan-400 border border-slate-700">YouTube Longform</span>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
+                                <span>Client: TechNexus</span>
+                                <span class="text-indigo-400 font-semibold"><i class="fa-solid fa-eye mr-1"></i> 2.4M</span>
+                            </div>
+                            <h4 class="text-base font-bold text-white group-hover:text-cyan-400 transition-colors">High-Tech Hardware Review Masterclass</h4>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="portfolio-item shorts glass-card glass-card-hover rounded-2xl overflow-hidden group" data-category="shorts">
+                        <div class="relative aspect-video bg-slate-900 overflow-hidden cursor-pointer open-modal" data-title="Viral Fitness Reel Series" data-views="8.1M Views" data-client="FitLife Official">
+                            <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80" alt="Thumbnail" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-slate-950/40 group-hover:bg-slate-950/10 transition-colors flex items-center justify-center">
+                                <div class="w-12 h-12 rounded-full bg-indigo-600/90 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                    <i class="fa-solid fa-play ml-0.5"></i>
+                                </div>
+                            </div>
+                            <span class="absolute top-3 left-3 px-2 py-1 rounded bg-slate-950/80 text-[10px] font-semibold text-pink-400 border border-slate-700">Reels / TikTok</span>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
+                                <span>Client: FitLife Brand</span>
+                                <span class="text-indigo-400 font-semibold"><i class="fa-solid fa-eye mr-1"></i> 8.1M</span>
+                            </div>
+                            <h4 class="text-base font-bold text-white group-hover:text-cyan-400 transition-colors">Viral Short-Form Fitness Campaign</h4>
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="portfolio-item commercial glass-card glass-card-hover rounded-2xl overflow-hidden group" data-category="commercial">
+                        <div class="relative aspect-video bg-slate-900 overflow-hidden cursor-pointer open-modal" data-title="Cyberpunk Watch Commercial" data-views="950K Views" data-client="Aether Watches">
+                            <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=80" alt="Thumbnail" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-slate-950/40 group-hover:bg-slate-950/10 transition-colors flex items-center justify-center">
+                                <div class="w-12 h-12 rounded-full bg-indigo-600/90 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                    <i class="fa-solid fa-play ml-0.5"></i>
+                                </div>
+                            </div>
+                            <span class="absolute top-3 left-3 px-2 py-1 rounded bg-slate-950/80 text-[10px] font-semibold text-amber-400 border border-slate-700">Commercial</span>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
+                                <span>Client: Aether Timepieces</span>
+                                <span class="text-indigo-400 font-semibold"><i class="fa-solid fa-eye mr-1"></i> 950K</span>
+                            </div>
+                            <h4 class="text-base font-bold text-white group-hover:text-cyan-400 transition-colors">3D Futuristic Luxury Product Commercial</h4>
+                        </div>
+                    </div>
+
+                    <!-- Item 4 -->
+                    <div class="portfolio-item ai glass-card glass-card-hover rounded-2xl overflow-hidden group" data-category="ai">
+                        <div class="relative aspect-video bg-slate-900 overflow-hidden cursor-pointer open-modal" data-title="AI Avatar Sci-Fi Short" data-views="1.2M Views" data-client="Kinetix Originals">
+                            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80" alt="Thumbnail" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-slate-950/40 group-hover:bg-slate-950/10 transition-colors flex items-center justify-center">
+                                <div class="w-12 h-12 rounded-full bg-indigo-600/90 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                    <i class="fa-solid fa-play ml-0.5"></i>
+                                </div>
+                            </div>
+                            <span class="absolute top-3 left-3 px-2 py-1 rounded bg-slate-950/80 text-[10px] font-semibold text-purple-400 border border-slate-700">AI Video / VFX</span>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
+                                <span>Client: Neural AI Studio</span>
+                                <span class="text-indigo-400 font-semibold"><i class="fa-solid fa-eye mr-1"></i> 1.2M</span>
+                            </div>
+                            <h4 class="text-base font-bold text-white group-hover:text-cyan-400 transition-colors">Generative AI Cyberpunk Short Story</h4>
+                        </div>
+                    </div>
+
+                    <!-- Item 5 -->
+                    <div class="portfolio-item youtube glass-card glass-card-hover rounded-2xl overflow-hidden group" data-category="youtube">
+                        <div class="relative aspect-video bg-slate-900 overflow-hidden cursor-pointer open-modal" data-title="Documentary Editing Style" data-views="3.8M Views" data-client="Apex Media">
+                            <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=800&q=80" alt="Thumbnail" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-slate-950/40 group-hover:bg-slate-950/10 transition-colors flex items-center justify-center">
+                                <div class="w-12 h-12 rounded-full bg-indigo-600/90 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                    <i class="fa-solid fa-play ml-0.5"></i>
+                                </div>
+                            </div>
+                            <span class="absolute top-3 left-3 px-2 py-1 rounded bg-slate-950/80 text-[10px] font-semibold text-cyan-400 border border-slate-700">YouTube Documentary</span>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
+                                <span>Client: Apex Stories</span>
+                                <span class="text-indigo-400 font-semibold"><i class="fa-solid fa-eye mr-1"></i> 3.8M</span>
+                            </div>
+                            <h4 class="text-base font-bold text-white group-hover:text-cyan-400 transition-colors">Deep Dive Visual Mini-Documentary</h4>
+                        </div>
+                    </div>
+
+                    <!-- Item 6 -->
+                    <div class="portfolio-item commercial glass-card glass-card-hover rounded-2xl overflow-hidden group" data-category="commercial">
+                        <div class="relative aspect-video bg-slate-900 overflow-hidden cursor-pointer open-modal" data-title="SaaS App Promo Video" data-views="500K Views" data-client="FlowStack Software">
+                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" alt="Thumbnail" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-slate-950/40 group-hover:bg-slate-950/10 transition-colors flex items-center justify-center">
+                                <div class="w-12 h-12 rounded-full bg-indigo-600/90 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                                    <i class="fa-solid fa-play ml-0.5"></i>
+                                </div>
+                            </div>
+                            <span class="absolute top-3 left-3 px-2 py-1 rounded bg-slate-950/80 text-[10px] font-semibold text-amber-400 border border-slate-700">Brand Promo</span>
+                        </div>
+                        <div class="p-5">
+                            <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
+                                <span>Client: FlowStack AI</span>
+                                <span class="text-indigo-400 font-semibold"><i class="fa-solid fa-eye mr-1"></i> 500K</span>
+                            </div>
+                            <h4 class="text-base font-bold text-white group-hover:text-cyan-400 transition-colors">Modern SaaS App Showcase Launch Video</h4>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Process (4-Step Pipeline) -->
+        <section id="process" class="py-24 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                    <h2 class="text-xs font-bold uppercase tracking-widest text-indigo-400">Streamlined Workflow</h2>
+                    <p class="text-3xl sm:text-4xl font-extrabold text-white">How We Turn RAW Footage Into Magic</p>
+                    <p class="text-slate-400 text-sm sm:text-base">A frictionless 4-step production pipeline designed to keep you in control while we handle the heavy editing lifted.</p>
+                </div>
+
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+                    
+                    <!-- Step 1 -->
+                    <div class="glass-card p-6 rounded-2xl border border-slate-800 relative">
+                        <div class="w-10 h-10 rounded-lg bg-indigo-600/20 text-indigo-400 font-mono font-bold text-sm flex items-center justify-center mb-6 border border-indigo-500/30">
+                            01
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Footage Upload</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Upload your raw video files and assets securely to our high-speed cloud drive alongside your project brief and references.
+                        </p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="glass-card p-6 rounded-2xl border border-slate-800 relative">
+                        <div class="w-10 h-10 rounded-lg bg-cyan-600/20 text-cyan-400 font-mono font-bold text-sm flex items-center justify-center mb-6 border border-cyan-500/30">
+                            02
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Assembly & Hooking</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Our lead editors structure the story arc, cut out pauses, craft high-retention opening hooks, and build initial visual pace.
+                        </p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="glass-card p-6 rounded-2xl border border-slate-800 relative">
+                        <div class="w-10 h-10 rounded-lg bg-purple-600/20 text-purple-400 font-mono font-bold text-sm flex items-center justify-center mb-6 border border-purple-500/30">
+                            03
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">VFX, Sound & AI Magic</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            We add custom motion graphics, sound effects, 4K color grading, dynamic captions, and AI visual enhancements.
+                        </p>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="glass-card p-6 rounded-2xl border border-slate-800 relative">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-600/20 text-emerald-400 font-mono font-bold text-sm flex items-center justify-center mb-6 border border-emerald-500/30">
+                            04
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-2">Final Review & Export</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Review the draft via Frame.io, request timestamped revisions if needed, and receive your final pristine 4K render.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing & Engagement Plans -->
+        <section id="pricing" class="py-24 bg-slate-950/80 relative border-t border-slate-800/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                    <h2 class="text-xs font-bold uppercase tracking-widest text-indigo-400">Flexible Engagement</h2>
+                    <p class="text-3xl sm:text-4xl font-extrabold text-white">Transparent Pricing Plans</p>
+                    <p class="text-slate-400 text-sm sm:text-base">Choose a single video project or partner with us monthly for uninterrupted video editing scale.</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    
+                    <!-- Plan 1 -->
+                    <div class="glass-card p-8 rounded-2xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all">
+                        <div>
+                            <span class="text-xs font-bold uppercase text-slate-400">Single Sprint</span>
+                            <h3 class="text-2xl font-bold text-white mt-1 mb-4">Pay-Per-Video</h3>
+                            <div class="text-3xl font-extrabold text-white mb-6">
+                                $299 <span class="text-xs font-normal text-slate-400">/ project</span>
+                            </div>
+                            <p class="text-xs text-slate-400 mb-6">Ideal for standalone high-stakes commercial ads or hero YouTube videos.</p>
+                            <ul class="text-xs text-slate-300 space-y-3 mb-8">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Up to 15 min Raw Footage</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Full Sound Design & Mixing</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> 4K Color Grading</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> 2 Free Revision Rounds</li>
+                                <li class="flex items-center gap-2 text-slate-500"><i class="fa-solid fa-xmark"></i> Dedicated Account Manager</li>
+                            </ul>
+                        </div>
+                        <a href="#calculator" class="w-full py-3 rounded-xl border border-slate-700 text-center text-xs font-bold text-white hover:bg-slate-800 transition-colors">Select Pay-Per-Video</a>
+                    </div>
+
+                    <!-- Plan 2 (Highlighted) -->
+                    <div class="glass-card p-8 rounded-2xl border-2 border-indigo-500 relative flex flex-col justify-between shadow-2xl shadow-indigo-600/20 scale-105 bg-slate-900/90">
+                        <span class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-gradient-to-r from-cyan-400 to-indigo-500 text-[10px] font-bold text-white tracking-widest uppercase shadow-md">
+                            Most Popular
+                        </span>
+                        <div>
+                            <span class="text-xs font-bold uppercase text-indigo-400">Monthly Retention</span>
+                            <h3 class="text-2xl font-bold text-white mt-1 mb-4">Creator Scale Pass</h3>
+                            <div class="text-3xl font-extrabold text-white mb-6">
+                                $1,899 <span class="text-xs font-normal text-slate-400">/ month</span>
+                            </div>
+                            <p class="text-xs text-slate-400 mb-6">Uncapped video flow for growing creators and personal brands needing consistent output.</p>
+                            <ul class="text-xs text-slate-300 space-y-3 mb-8">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> 4 Long-Form Videos OR 16 Shorts/mo</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Custom Motion Graphics & VFX</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> 24-48 hr Turnaround Time</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Unlimited Revisions</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Dedicated Slack Channel</li>
+                            </ul>
+                        </div>
+                        <a href="#calculator" class="w-full py-3 rounded-xl gradient-btn text-center text-xs font-bold text-white shadow-lg shadow-indigo-500/30">Start Creator Pass</a>
+                    </div>
+
+                    <!-- Plan 3 -->
+                    <div class="glass-card p-8 rounded-2xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all">
+                        <div>
+                            <span class="text-xs font-bold uppercase text-slate-400">Enterprise Agency</span>
+                            <h3 class="text-2xl font-bold text-white mt-1 mb-4">Brand / Agency Tier</h3>
+                            <div class="text-3xl font-extrabold text-white mb-6">
+                                Custom <span class="text-xs font-normal text-slate-400">/ tailored</span>
+                            </div>
+                            <p class="text-xs text-slate-400 mb-6">Bespoke production team dedicated to high-volume DTC brands, SaaS apps, and agencies.</p>
+                            <ul class="text-xs text-slate-300 space-y-3 mb-8">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Dedicated Post-Production Team</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Custom AI Voice & Avatar Integration</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Multi-Format Ad Variations (A/B testing)</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> 24/7 Priority SLA Support</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-cyan-400"></i> Raw Project Files Delivered</li>
+                            </ul>
+                        </div>
+                        <a href="#calculator" class="w-full py-3 rounded-xl border border-slate-700 text-center text-xs font-bold text-white hover:bg-slate-800 transition-colors">Contact Enterprise Team</a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials & Social Proof -->
+        <section id="testimonials" class="py-24 relative">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                    <h2 class="text-xs font-bold uppercase tracking-widest text-indigo-400">Client Praise</h2>
+                    <p class="text-3xl sm:text-4xl font-extrabold text-white">Trusted By Top Creators & Founders</p>
+                    <p class="text-slate-400 text-sm sm:text-base">Read how Kinetix Video Labs helped scale content pipelines and viewer retention.</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    
+                    <!-- Testimonial 1 -->
+                    <div class="glass-card p-8 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                        <div class="space-y-4">
+                            <div class="flex text-amber-400 text-xs gap-1">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed italic">
+                                "Kinetix completely transformed my YouTube channel. The retention edits and motion graphics took our average watch time from 35% to over 58%. Couldn't recommend them enough!"
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-3 pt-6 border-t border-slate-800/80 mt-6">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="Client" class="w-10 h-10 rounded-full object-cover">
+                            <div>
+                                <h4 class="text-sm font-bold text-white">Sarah Jenkins</h4>
+                                <p class="text-[11px] text-slate-400">Tech Creator (850K Subscribers)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 2 -->
+                    <div class="glass-card p-8 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                        <div class="space-y-4">
+                            <div class="flex text-amber-400 text-xs gap-1">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed italic">
+                                "Our DTC brand needed 20+ short-form ad iterations monthly. Kinetix delivered ultra-polished TikToks and Reels with a 24-hour turnaround that tripled our ROAS."
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-3 pt-6 border-t border-slate-800/80 mt-6">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" alt="Client" class="w-10 h-10 rounded-full object-cover">
+                            <div>
+                                <h4 class="text-sm font-bold text-white">David Ross</h4>
+                                <p class="text-[11px] text-slate-400">Founder, Velocity Apparel</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 3 -->
+                    <div class="glass-card p-8 rounded-2xl border border-slate-800 flex flex-col justify-between">
+                        <div class="space-y-4">
+                            <div class="flex text-amber-400 text-xs gap-1">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-xs text-slate-300 leading-relaxed italic">
+                                "The AI upscaling and 3D visual effects Kinetix added to our product launch video turned heads at our investor conference. They truly operate at Hollywood quality."
+                            </p>
+                        </div>
+                        <div class="flex items-center gap-3 pt-6 border-t border-slate-800/80 mt-6">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80" alt="Client" class="w-10 h-10 rounded-full object-cover">
+                            <div>
+                                <h4 class="text-sm font-bold text-white">Marcus Vance</h4>
+                                <p class="text-[11px] text-slate-400">CMO, CyberCloud AI</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Dynamic Quote Estimator & Contact Form -->
+        <section id="calculator" class="py-24 bg-slate-950/90 relative border-t border-slate-800/80">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="grid lg:grid-cols-12 gap-12 items-start">
+                    
+                    <!-- Left: Dynamic Pricing Calculator -->
+                    <div class="lg:col-span-6 glass-card p-8 sm:p-10 rounded-3xl border border-slate-800 space-y-6">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-widest text-cyan-400">Interactive Estimator</span>
+                            <h3 class="text-2xl font-bold text-white mt-1">Project Price Calculator</h3>
+                            <p class="text-xs text-slate-400 mt-1">Select your specifications for a real-time instant estimate.</p>
+                        </div>
+
+                        <!-- Step 1: Video Format -->
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold uppercase tracking-wider text-slate-300">1. Video Format</label>
+                            <div class="grid grid-cols-3 gap-3">
+                                <button type="button" class="calc-format p-3 rounded-xl border border-slate-800 bg-slate-900/60 text-xs font-bold text-slate-300 hover:border-indigo-500 active-format" data-cost="150" data-name="Short-Form">Short-Form</button>
+                                <button type="button" class="calc-format p-3 rounded-xl border border-slate-800 bg-slate-900/60 text-xs font-bold text-slate-300 hover:border-indigo-500" data-cost="300" data-name="YouTube">YouTube</button>
+                                <button type="button" class="calc-format p-3 rounded-xl border border-slate-800 bg-slate-900/60 text-xs font-bold text-slate-300 hover:border-indigo-500" data-cost="500" data-name="Commercial">Commercial</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Length Slider -->
+                        <div class="space-y-2">
+                            <div class="flex justify-between items-center text-xs">
+                                <label class="font-bold uppercase tracking-wider text-slate-300">2. Final Video Length</label>
+                                <span id="calc-length-val" class="font-mono font-bold text-indigo-400">1 Minute</span>
+                            </div>
+                            <input type="range" id="calc-length" min="1" max="15" value="1" class="w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer">
+                        </div>
+
+                        <!-- Step 3: Speed / Turnaround -->
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold uppercase tracking-wider text-slate-300">3. Delivery Speed</label>
+                            <div class="grid grid-cols-2 gap-3">
+                                <button type="button" class="calc-speed p-3 rounded-xl border border-slate-800 bg-slate-900/60 text-xs font-bold text-slate-300 hover:border-indigo-500 active-speed" data-mult="1" data-name="Standard (48-72 hrs)">Standard (48-72h)</button>
+                                <button type="button" class="calc-speed p-3 rounded-xl border border-slate-800 bg-slate-900/60 text-xs font-bold text-slate-300 hover:border-indigo-500" data-mult="1.4" data-name="Rush Express (24 hrs)">Rush Express (24h)</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Add-ons Checkboxes -->
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold uppercase tracking-wider text-slate-300">4. Optional Add-ons</label>
+                            <div class="space-y-2">
+                                <label class="flex items-center gap-3 p-3 rounded-xl border border-slate-800 bg-slate-900/40 text-xs text-slate-300 cursor-pointer hover:bg-slate-900/80">
+                                    <input type="checkbox" class="calc-addon rounded accent-indigo-500" data-cost="80" value="4K AI Upscaling">
+                                    <span>4K AI Upscaling & Frame Interpolation (+ $80)</span>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 rounded-xl border border-slate-800 bg-slate-900/40 text-xs text-slate-300 cursor-pointer hover:bg-slate-900/80">
+                                    <input type="checkbox" class="calc-addon rounded accent-indigo-500" data-cost="120" value="Custom 3D VFX">
+                                    <span>Custom 3D VFX & Motion Titles (+ $120)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Estimate Display -->
+                        <div class="pt-4 border-t border-slate-800 flex items-center justify-between">
+                            <div>
+                                <span class="text-xs text-slate-400">Estimated Project Cost</span>
+                                <div id="calc-total-price" class="text-3xl font-extrabold text-white gradient-text">$150</div>
+                            </div>
+                            <span class="text-[10px] text-slate-500 max-w-[120px] text-right">Final price confirmed upon reviewing raw assets.</span>
+                        </div>
+                    </div>
+
+                    <!-- Right: Direct Project Contact Form -->
+                    <div class="lg:col-span-6 glass-card p-8 sm:p-10 rounded-3xl border border-slate-800 space-y-6">
+                        <div>
+                            <span class="text-xs font-bold uppercase tracking-widest text-indigo-400">Direct Brief</span>
+                            <h3 class="text-2xl font-bold text-white mt-1">Start Your Project</h3>
+                            <p class="text-xs text-slate-400 mt-1">Send us your project details and raw file links to get started.</p>
+                        </div>
+
+                        <form id="project-contact-form" class="space-y-4">
+                            <div class="grid sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="client-name" class="block text-xs font-semibold text-slate-300 mb-1">Your Name</label>
+                                    <input type="text" id="client-name" required class="w-full px-4 py-3 rounded-xl border border-slate-800 bg-slate-900/80 text-white text-xs focus:outline-none focus:border-indigo-500 transition-colors" placeholder="Alex Morgan">
+                                </div>
+                                <div>
+                                    <label for="client-email" class="block text-xs font-semibold text-slate-300 mb-1">Email Address</label>
+                                    <input type="email" id="client-email" required class="w-full px-4 py-3 rounded-xl border border-slate-800 bg-slate-900/80 text-white text-xs focus:outline-none focus:border-indigo-500 transition-colors" placeholder="alex@company.com">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="footage-link" class="block text-xs font-semibold text-slate-300 mb-1">Footage Drive Link (Google Drive, Dropbox, WeTransfer)</label>
+                                <input type="url" id="footage-link" class="w-full px-4 py-3 rounded-xl border border-slate-800 bg-slate-900/80 text-white text-xs focus:outline-none focus:border-indigo-500 transition-colors" placeholder="https://drive.google.com/folder/...">
+                            </div>
+
+                            <div>
+                                <label for="project-notes" class="block text-xs font-semibold text-slate-300 mb-1">Project Brief & Details</label>
+                                <textarea id="project-notes" rows="4" required class="w-full px-4 py-3 rounded-xl border border-slate-800 bg-slate-900/80 text-white text-xs focus:outline-none focus:border-indigo-500 transition-colors" placeholder="Tell us about your target audience, editing style references, video goals..."></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full py-4 rounded-xl gradient-btn text-white font-bold text-xs tracking-wider uppercase shadow-xl shadow-indigo-600/30 flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i> Submit Brief & Get Confirmed Quote
+                            </button>
+                        </form>
+
+                        <div id="form-alert" class="hidden p-4 rounded-xl text-xs font-medium text-center"></div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="border-t border-slate-800/80 bg-slate-950 py-12 text-slate-400 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                
+                <!-- Col 1: Brand -->
+                <div class="space-y-4 md:col-span-1">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-indigo-600 text-white flex items-center justify-center font-bold text-xs">
+                            K
+                        </div>
+                        <span class="text-base font-extrabold text-white tracking-tight">KINETIX VIDEO LABS</span>
+                    </div>
+                    <p class="text-slate-400 leading-relaxed text-[11px]">
+                        Ultra-high-impact post-production lab delivering video editing, motion graphics, and AI video synthesis.
+                    </p>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Accepting New Clients
+                    </div>
+                </div>
+
+                <!-- Col 2: Navigation Quicklinks -->
+                <div>
+                    <h5 class="text-white font-bold mb-3 text-xs uppercase tracking-wider">Navigation</h5>
+                    <ul class="space-y-2">
+                        <li><a href="#services" class="hover:text-white transition-colors">Services</a></li>
+                        <li><a href="#showcase" class="hover:text-white transition-colors">Showcase Gallery</a></li>
+                        <li><a href="#process" class="hover:text-white transition-colors">Production Process</a></li>
+                        <li><a href="#pricing" class="hover:text-white transition-colors">Pricing Plans</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Services -->
+                <div>
+                    <h5 class="text-white font-bold mb-3 text-xs uppercase tracking-wider">Services</h5>
+                    <ul class="space-y-2">
+                        <li><a href="#services" class="hover:text-white transition-colors">YouTube Video Editing</a></li>
+                        <li><a href="#services" class="hover:text-white transition-colors">Short-Form Virality</a></li>
+                        <li><a href="#services" class="hover:text-white transition-colors">4K AI Upscaling</a></li>
+                        <li><a href="#services" class="hover:text-white transition-colors">Color & Sound Engineering</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Socials & Contact -->
+                <div>
+                    <h5 class="text-white font-bold mb-3 text-xs uppercase tracking-wider">Connect</h5>
+                    <div class="flex items-center gap-4 text-slate-400 mb-4 text-base">
+                        <a href="#" class="hover:text-cyan-400 transition-colors"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#" class="hover:text-cyan-400 transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="hover:text-cyan-400 transition-colors"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#" class="hover:text-cyan-400 transition-colors"><i class="fa-brands fa-linkedin"></i></a>
+                    </div>
+                    <p class="text-[11px] text-slate-500">Contact: hello@kinetixvideolabs.com</p>
+                </div>
+
+            </div>
+
+            <div class="pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-slate-500">
+                <p>&copy; <span id="year"></span> Kinetix Video Labs. All rights reserved.</p>
+                <div class="flex items-center gap-6">
+                    <a href="#" class="hover:text-slate-400">Privacy Policy</a>
+                    <a href="#" class="hover:text-slate-400">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Video Modal Trigger Container -->
+    <div id="video-modal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="relative w-full max-w-4xl glass-card rounded-2xl overflow-hidden border border-slate-700 shadow-2xl">
+            <div class="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/60">
+                <div>
+                    <h4 id="modal-title" class="text-sm font-bold text-white">Project Title</h4>
+                    <p id="modal-subtitle" class="text-[10px] text-slate-400">Client Demo Video</p>
+                </div>
+                <button id="close-modal" class="p-2 text-slate-400 hover:text-white text-base">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="aspect-video bg-black flex items-center justify-center relative">
+                <video id="modal-video-player" class="w-full h-full object-contain" controls>
+                    <source src="https://assets.mixkit.co/videos/preview/mixkit-animation-of-futuristic-devices-99786-large.mp4" type="video/mp4">
+                    Your browser does not support video playback.
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <!-- Embedded Scripts -->
+    <script>
+        // Set Year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Video Player Controls Logic for Hero Section
+        const heroVideo = document.getElementById('hero-video');
+        const heroPlayBtn = document.getElementById('hero-play-btn');
+        const ctrlPlayPause = document.getElementById('ctrl-play-pause');
+        const ctrlMute = document.getElementById('ctrl-mute');
+        const ctrlFullscreen = document.getElementById('ctrl-fullscreen');
+        const videoProgress = document.getElementById('video-progress');
+        const videoProgressContainer = document.getElementById('video-progress-container');
+        const videoTime = document.getElementById('video-time');
+
+        function toggleHeroVideo() {
+            if (heroVideo.paused) {
+                heroVideo.play();
+                heroPlayBtn.classList.add('hidden');
+                ctrlPlayPause.innerHTML = '<i class="fa-solid fa-pause"></i>';
+            } else {
+                heroVideo.pause();
+                heroPlayBtn.classList.remove('hidden');
+                ctrlPlayPause.innerHTML = '<i class="fa-solid fa-play"></i>';
+            }
+        }
+
+        heroPlayBtn.addEventListener('click', toggleHeroVideo);
+        ctrlPlayPause.addEventListener('click', toggleHeroVideo);
+
+        ctrlMute.addEventListener('click', () => {
+            heroVideo.muted = !heroVideo.muted;
+            ctrlMute.innerHTML = heroVideo.muted ? 
+                '<i class="fa-solid fa-volume-xmark"></i>' : 
+                '<i class="fa-solid fa-volume-high"></i>';
+        });
+
+        ctrlFullscreen.addEventListener('click', () => {
+            if (heroVideo.requestFullscreen) {
+                heroVideo.requestFullscreen();
+            }
+        });
+
+        heroVideo.addEventListener('timeupdate', () => {
+            if (heroVideo.duration) {
+                const pct = (heroVideo.currentTime / heroVideo.duration) * 100;
+                videoProgress.style.width = `${pct}%`;
+
+                const curMins = Math.floor(heroVideo.currentTime / 60);
+                const curSecs = Math.floor(heroVideo.currentTime % 60).toString().padStart(2, '0');
+                const durMins = Math.floor(heroVideo.duration / 60);
+                const durSecs = Math.floor(heroVideo.duration % 60).toString().padStart(2, '0');
+                videoTime.textContent = `${curMins}:${curSecs} / ${durMins}:${durSecs}`;
+            }
+        });
+
+        videoProgressContainer.addEventListener('click', (e) => {
+            const rect = videoProgressContainer.getBoundingClientRect();
+            const pos = (e.clientX - rect.left) / rect.width;
+            heroVideo.currentTime = pos * heroVideo.duration;
+        });
+
+        // Showcase Gallery Filters
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const portfolioItems = document.querySelectorAll('.portfolio-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => {
+                    b.classList.remove('bg-indigo-600', 'text-white');
+                    b.classList.add('text-slate-400');
+                });
+                btn.classList.add('bg-indigo-600', 'text-white');
+                btn.classList.remove('text-slate-400');
+
+                const filter = btn.getAttribute('data-filter');
+                portfolioItems.forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        // Video Showcase Modal Logic
+        const videoModal = document.getElementById('video-modal');
+        const closeModal = document.getElementById('close-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalSubtitle = document.getElementById('modal-subtitle');
+        const modalVideoPlayer = document.getElementById('modal-video-player');
+        const openModalBtns = document.querySelectorAll('.open-modal');
+
+        openModalBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const title = btn.getAttribute('data-title');
+                const views = btn.getAttribute('data-views');
+                const client = btn.getAttribute('data-client');
+
+                modalTitle.textContent = title;
+                modalSubtitle.textContent = `Client: ${client} • ${views}`;
+                videoModal.classList.remove('hidden');
+                videoModal.classList.add('flex');
+                modalVideoPlayer.play();
+            });
+        });
+
+        closeModal.addEventListener('click', () => {
+            videoModal.classList.add('hidden');
+            videoModal.classList.remove('flex');
+            modalVideoPlayer.pause();
+        });
+
+        videoModal.addEventListener('click', (e) => {
+            if (e.target === videoModal) {
+                videoModal.classList.add('hidden');
+                videoModal.classList.remove('flex');
+                modalVideoPlayer.pause();
+            }
+        });
+
+        // Dynamic Interactive Calculator Logic
+        let selectedFormatCost = 150;
+        let selectedSpeedMult = 1;
+        const lengthSlider = document.getElementById('calc-length');
+        const lengthValDisplay = document.getElementById('calc-length-val');
+        const totalPriceDisplay = document.getElementById('calc-total-price');
+        const formatBtns = document.querySelectorAll('.calc-format');
+        const speedBtns = document.querySelectorAll('.calc-speed');
+        const addonBoxes = document.querySelectorAll('.calc-addon');
+
+        function updateCalculator() {
+            const mins = parseInt(lengthSlider.value);
+            lengthValDisplay.textContent = `${mins} Minute${mins > 1 ? 's' : ''}`;
+
+            let base = selectedFormatCost + (mins - 1) * 30;
+            
+            let addonsCost = 0;
+            addonBoxes.forEach(box => {
+                if (box.checked) {
+                    addonsCost += parseInt(box.getAttribute('data-cost'));
+                }
+            });
+
+            let total = Math.round((base + addonsCost) * selectedSpeedMult);
+            totalPriceDisplay.textContent = `$${total}`;
+        }
+
+        formatBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                formatBtns.forEach(b => {
+                    b.classList.remove('border-indigo-500', 'bg-indigo-600/20', 'text-white');
+                    b.classList.add('border-slate-800', 'text-slate-300');
+                });
+                btn.classList.add('border-indigo-500', 'bg-indigo-600/20', 'text-white');
+                btn.classList.remove('border-slate-800', 'text-slate-300');
+                selectedFormatCost = parseInt(btn.getAttribute('data-cost'));
+                updateCalculator();
+            });
+        });
+
+        speedBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                speedBtns.forEach(b => {
+                    b.classList.remove('border-indigo-500', 'bg-indigo-600/20', 'text-white');
+                    b.classList.add('border-slate-800', 'text-slate-300');
+                });
+                btn.classList.add('border-indigo-500', 'bg-indigo-600/20', 'text-white');
+                btn.classList.remove('border-slate-800', 'text-slate-300');
+                selectedSpeedMult = parseFloat(btn.getAttribute('data-mult'));
+                updateCalculator();
+            });
+        });
+
+        lengthSlider.addEventListener('input', updateCalculator);
+        addonBoxes.forEach(box => box.addEventListener('change', updateCalculator));
+
+        // Initial default button highlight state
+        formatBtns[0].classList.add('border-indigo-500', 'bg-indigo-600/20', 'text-white');
+        speedBtns[0].classList.add('border-indigo-500', 'bg-indigo-600/20', 'text-white');
+
+        // Contact Form Submission Handler
+        const contactForm = document.getElementById('project-contact-form');
+        const formAlert = document.getElementById('form-alert');
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            formAlert.classList.remove('hidden', 'bg-red-500/20', 'text-red-300');
+            formAlert.classList.add('bg-emerald-500/20', 'text-emerald-300', 'border', 'border-emerald-500/30');
+            formAlert.textContent = 'Project brief received! Our lead producer will review your link and send a finalized quote within 4 hours.';
+            contactForm.reset();
+
+            setTimeout(() => {
+                formAlert.classList.add('hidden');
+            }, 7000);
+        });
+
+        // Simple Counter Animation
+        const counters = document.querySelectorAll('.counter');
+        let counterAnimated = false;
+
+        window.addEventListener('scroll', () => {
+            if (!counterAnimated && window.scrollY > 200) {
+                counters.forEach(counter => {
+                    const target = +counter.getAttribute('data-target');
+                    let count = 0;
+                    const speed = target / 50;
+                    
+                    const updateCount = () => {
+                        count += speed;
+                        if (count < target) {
+                            counter.innerText = Math.ceil(count);
+                            setTimeout(updateCount, 30);
+                        } else {
+                            counter.innerText = target;
+                        }
+                    };
+                    updateCount();
+                });
+                counterAnimated = true;
+            }
+        });
+    </script>
+</body>
+</html>
